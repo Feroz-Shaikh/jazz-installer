@@ -1,5 +1,6 @@
 default['jenkins']['home'] = '/var/lib/jenkins'
 default['jenkins']['SSH_user']='sshUserName'
+default['jenkins']['SSH_user_homedir']='sshUserHomeDir'
 default['jenkinsadmin']['file'] = "#{node['jenkins']['home']}/users/jenkinsadmin/config.xml"
 default['jenkinsadmin']['fullName'] = 'Jenkins Admin'
 default['jenkinsadmin']['email'] = 'email@email.com'

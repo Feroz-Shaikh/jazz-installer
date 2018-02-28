@@ -37,15 +37,15 @@ resource "null_resource" "configureJenkinsInstance" {
   }
 }
 
-//
+// This resource is executed only for dockerized jenkins server - Scenario 2 & 3.
 resource "null_resource" "configureJenkinsDocker" {
   count = "${var.scenario2or3}"
   depends_on = ["null_resource.configureProvisioners", "aws_elasticsearch_domain.elasticsearch_domain"]
 
+  // Build a custom jenkins image
   provisioner "local-exec" {
     command = "bash ${var.launchJenkinsCE_cmd}"
   }
-
 }
 
 resource "null_resource" "postJenkinsConfiguration" {
@@ -59,5 +59,4 @@ resource "null_resource" "postJenkinsConfiguration" {
   provisioner "local-exec" {
     command = "${var.injectingBootstrapToJenkinsfiles_cmd} ${lookup(var.scmmap, "elb")} ${lookup(var.scmmap, "type")}"
   }
-
 }
