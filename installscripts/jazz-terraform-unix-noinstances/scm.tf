@@ -4,7 +4,7 @@
 
 // Create Projects in Bitbucket. Will be executed only if the SCM is Bitbucket.
 resource "null_resource" "createProjectsInBB" {
-  depends_on = ["null_resource.configureJenkinsServer","aws_elasticsearch_domain.elasticsearch_domain"]
+  depends_on = ["null_resource.postJenkinsConfiguration","aws_elasticsearch_domain.elasticsearch_domain"]
   count = "${var.scmbb}"
 
   provisioner "local-exec" {
@@ -14,7 +14,7 @@ resource "null_resource" "createProjectsInBB" {
 
 // Copy the jazz-build-module to SLF in SCM
 resource "null_resource" "copyJazzBuildModule" {
-  depends_on = ["null_resource.configureJenkinsServer","aws_elasticsearch_domain.elasticsearch_domain","null_resource.createProjectsInBB"]
+  depends_on = ["null_resource.postJenkinsConfiguration","aws_elasticsearch_domain.elasticsearch_domain","null_resource.createProjectsInBB"]
 
   provisioner "local-exec" {
     command = "${var.scmpush_cmd} ${lookup(var.scmmap, "elb")} ${lookup(var.scmmap, "username")} ${lookup(var.scmmap, "passwd")} ${var.cognito_pool_username} ${lookup(var.scmmap, "privatetoken")} ${lookup(var.scmmap, "slfid")} ${lookup(var.scmmap, "type")}  ${lookup(var.jenkinsservermap, "jenkins_elb")} ${lookup(var.jenkinsservermap, "jenkinsuser")} ${lookup(var.jenkinsservermap, "jenkinspasswd")} jazz-build-module"

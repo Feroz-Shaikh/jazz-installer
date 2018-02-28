@@ -96,3 +96,8 @@ variable "lambdaCloudWatchProps" {
 # Set to true for respectively SCMs, and false for bitbucket. This variable decides which terraform block to run for SCM
 variable "scmbb" { default = true }
 variable "scmgitlab" { default = false }
+
+# Scenario used. Default is Scenario 1. "configureJenkinsInstance" resource in jenkins.tf will be used in this case.
+# When Scenario 2 || 3 is used, scenario2or3 will be set to true and "configureJenkinsDocker" resource in jenkins.tf will be used.
+variable "scenario1" { default = true }
+variable "scenario2or3" { default = false }
